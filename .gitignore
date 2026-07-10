@@ -1,0 +1,19 @@
+# Office 临时文件
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# Word 文档（不部署到网站）
+*.docx
+*.xlsx
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 大型临时文件
+a136fe0df12765890fc7fd70f054feee.png

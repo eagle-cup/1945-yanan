@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>窑洞对 · 1945延安</title>
+<link rel="stylesheet" href="../../assets/css/common.css">
+<style>
+  :root {
+    --accent:       #B8956A;
+    --accent-light: #D4B896;
+  }
+
+  body {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+  }
+
+  /* ===== 封面页 ===== */
+  .cover-page {
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 55%, rgba(184,149,106,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 35% at 50% 55%, rgba(212,165,116,0.10) 0%, transparent 50%),
+      var(--color-bg-deep);
+    position: relative;
+    gap: 0;
+    padding-top: var(--space-3xl);
+    scroll-snap-align: start;
+  }
+
+  .cave-arch {
+    position: absolute;
+    top: 8%; left: 50%; transform: translateX(-50%);
+    width: 88%; max-width: 380px;
+    aspect-ratio: 1 / 1.3;
+    border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+    border: 2px solid rgba(184,149,106,0.2);
+    border-bottom: none;
+    pointer-events: none; z-index: 1;
+    box-shadow: inset 0 -60px 80px -40px rgba(184,149,106,0.06);
+  }
+
+  .logo-wrap {
+    position: relative; z-index: 2;
+    width: 90px; height: 90px;
+    margin-bottom: var(--space-xl);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.1s forwards;
+  }
+  .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+
+  .cover-badge {
+    position: relative; z-index: 2;
+    font-size: var(--text-xs); letter-spacing: 0.15em;
+    color: var(--accent);
+    border: 1px solid rgba(184,149,106,0.3);
+    padding: 4px 16px; border-radius: 2px;
+    margin-bottom: var(--space-xl);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.2s forwards;
+  }
+
+  .cover-title {
+    position: relative; z-index: 2;
+    font-family: var(--font-display);
+    font-size: 3rem; font-weight: 900;
+    color: var(--accent-light);
+    letter-spacing: 0.12em;
+    margin-bottom: var(--space-md);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.3s forwards;
+    text-shadow: 0 0 40px rgba(184,149,106,0.3);
+  }
+
+  .cover-subtitle {
+    position: relative; z-index: 2;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--color-text-dim);
+    letter-spacing: 0.08em;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.4s forwards;
+  }
+
+  .cover-date {
+    position: relative; z-index: 2;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-2xl);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.5s forwards;
+  }
+
+  /* 浮尘粒子 */
+  .dust-particles { position: absolute; top: 30%; left: 50%; transform: translateX(-50%); width: 60%; height: 30%; pointer-events: none; z-index: 1; opacity: 0.4; }
+  .dust-particle { position: absolute; width: 2px; height: 2px; background: var(--accent-light); border-radius: 50%; animation: floatUp 4s ease-in-out infinite; }
+  .dust-particle:nth-child(1) { left: 20%; animation-delay: 0s; animation-duration: 3.5s; }
+  .dust-particle:nth-child(2) { left: 40%; animation-delay: 0.8s; animation-duration: 4.2s; }
+  .dust-particle:nth-child(3) { left: 55%; animation-delay: 1.6s; animation-duration: 3.8s; }
+  .dust-particle:nth-child(4) { left: 70%; animation-delay: 2.4s; animation-duration: 4.5s; }
+  .dust-particle:nth-child(5) { left: 30%; animation-delay: 3.0s; animation-duration: 3.3s; }
+  .dust-particle:nth-child(6) { left: 60%; animation-delay: 1.2s; animation-duration: 4.0s; }
+  .dust-particle:nth-child(7) { left: 45%; animation-delay: 2.0s; animation-duration: 3.7s; }
+  .dust-particle:nth-child(8) { left: 75%; animation-delay: 3.2s; animation-duration: 4.3s; }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1); opacity: 1; }
+    50%  { transform: translateY(-30px) scale(1.5); opacity: 0.6; }
+    100% { transform: translateY(-60px) scale(0.5); opacity: 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 视频页 ===== */
+  .video-page {
+    background: var(--color-bg-deep);
+    scroll-snap-align: start;
+    padding-top: var(--space-xl);
+  }
+
+  .video-frame {
+    width: 100%; max-width: 400px;
+    aspect-ratio: 16 / 9;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: var(--space-lg);
+    color: var(--color-text-dim);
+    position: relative; overflow: hidden;
+  }
+  .video-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(184,149,106,0.06) 0%, transparent 70%);
+  }
+  .video-icon { font-size: 3rem; position: relative; z-index: 1; opacity: 0.6; }
+  .video-placeholder-text { font-size: var(--text-sm); position: relative; z-index: 1; opacity: 0.5; text-align: center; line-height: 1.8; }
+
+  /* ===== 人物卡片页 ===== */
+  .characters-page {
+    background: linear-gradient(to bottom, var(--color-bg-deep), var(--color-bg-primary) 40%);
+    scroll-snap-align: start;
+    justify-content: flex-start;
+    padding-top: var(--space-3xl);
+  }
+
+  .section-label {
+    font-size: var(--text-xs); letter-spacing: 0.15em;
+    color: var(--accent); margin-bottom: var(--space-sm);
+  }
+  .section-title { margin-bottom: var(--space-2xl); text-align: center; }
+
+  /* 人物卡片 */
+  .character-card {
+    width: 100%; max-width: 400px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    display: flex; align-items: center; gap: var(--space-lg);
+    cursor: pointer;
+    transition: all var(--duration-base) var(--ease-out);
+    margin-bottom: var(--space-lg);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .character-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .character-card:active { transform: scale(0.98); }
+
+  /* 圆形头像（纯CSS绘制，后续可用img替换） */
+  .avatar-circle {
+    width: 72px; height: 72px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+    overflow: hidden;
+    background: linear-gradient(145deg, #3d2e1c 0%, #2a1f14 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .avatar-circle::before {
+    content: '';
+    position: absolute; top: 8%; left: 50%; transform: translateX(-50%);
+    width: 55%; height: 38%;
+    background: radial-gradient(ellipse, #8b7355 0%, #6b5640 100%);
+    border-radius: 50%;
+  }
+  .avatar-circle::after {
+    content: '';
+    position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 45%;
+    background: radial-gradient(ellipse, #7a6348 0%, #5a4430 100%);
+    border-radius: 45%;
+  }
+  .avatar-initial {
+    position: relative; z-index: 2;
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--accent-light);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  /* 当有真实照片时的img标签 */
+  .avatar-photo {
+    display: none;
+  }
+  .avatar-photo.loaded {
+    display: block;
+    width: 100%; height: 100%;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    position: absolute; inset: 0; z-index: 3;
+  }
+
+  .char-info { flex: 1; min-width: 0; }
+  .char-name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg); font-weight: 700;
+    color: var(--color-gold-light);
+    margin-bottom: 2px;
+  }
+  .char-role-tag {
+    font-size: var(--text-xs); color: var(--accent);
+    letter-spacing: 0.05em; margin-bottom: var(--space-sm);
+  }
+  .char-quote-preview {
+    font-size: var(--text-sm); color: var(--color-text-dim);
+    font-style: italic; line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-arrow {
+    color: var(--color-text-muted); font-size: 1.2rem; flex-shrink: 0;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .character-card:hover .card-arrow { transform: translateX(4px); }
+
+  /* ===== 弹窗内部样式 ===== */
+  .char-detail {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: var(--space-lg);
+  }
+
+  /* 大照片区域 */
+  .char-hero-photo {
+    width: 100%; max-width: 320px;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--accent);
+    overflow: hidden;
+    margin-bottom: var(--space-xl);
+    background: linear-gradient(160deg, #3d2e1c 0%, #1a1410 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  /* 照片占位插画 */
+  .char-hero-illust {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: var(--space-md);
+    color: var(--accent);
+    opacity: 0.7;
+  }
+  .char-hero-illust .illust-silhouette {
+    width: 60%; height: 55%;
+    background: radial-gradient(ellipse at 50% 35%, #8b7355 0%, #3d2e1c 70%);
+    border-radius: 48% 48% 42% 42% / 42% 42% 38% 38%;
+    position: relative;
+  }
+  .char-hero-illust .illust-label {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: 0.1em;
+  }
+  /* 真实照片（替换时显示） */
+  .char-hero-img {
+    display: none;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; inset: 0;
+  }
+  .char-hero-img.loaded {
+    display: block;
+  }
+
+  .char-detail-name {
+    font-size: var(--text-2xl); margin-bottom: 2px;
+  }
+  .char-detail-years {
+    font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 4px;
+  }
+  .char-detail-role {
+    font-size: var(--text-sm); color: var(--accent);
+    letter-spacing: 0.05em; margin-bottom: var(--space-lg);
+  }
+
+  .char-detail-bio {
+    width: 100%; text-align: left;
+  }
+  .char-detail-bio p {
+    margin-bottom: var(--space-md); line-height: 1.8;
+    text-indent: 2em; color: var(--color-text-dim);
+  }
+
+  .char-quote-block {
+    width: 100%;
+    background: rgba(184,149,106,0.06);
+    border: 1px solid rgba(184,149,106,0.15);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl); margin-top: var(--space-xl);
+    display: flex; flex-direction: column;
+    align-items: center; gap: var(--space-lg);
+  }
+  .char-quote-text {
+    font-family: var(--font-display);
+    font-size: var(--text-lg); color: var(--accent-light);
+    text-align: center; line-height: 1.8; font-style: italic;
+  }
+
+  /* ===== 页脚 ===== */
+  .page-footer {
+    width: 100%; max-width: 400px;
+    padding: var(--space-xl) 0;
+    margin-top: auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .page-dots { display: flex; gap: 6px; }
+  .page-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-text-muted); opacity: 0.4;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .page-dot.active { opacity: 1; background: var(--accent); }
+
+  /* 照片提示条 */
+  .photo-tip {
+    width: 100%; max-width: 320px;
+    text-align: center;
+    font-size: var(--text-xs); color: var(--color-text-muted);
+    margin-top: -0.5rem; margin-bottom: var(--space-lg);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== 第1页：封面 ======== -->
+<section class="fullscreen-page cover-page" id="page-cover">
+  <div class="cave-arch"></div>
+  <div class="dust-particles">
+    <div class="dust-particle"></div><div class="dust-particle"></div>
+    <div class="dust-particle"></div><div class="dust-particle"></div>
+    <div class="dust-particle"></div><div class="dust-particle"></div>
+    <div class="dust-particle"></div><div class="dust-particle"></div>
+  </div>
+
+  <div class="logo-wrap"><img src="../../assets/images/logo.png" alt="队徽"></div>
+  <div class="cover-badge">杨家岭 · 毛泽东旧居</div>
+  <h1 class="cover-title">窑洞对</h1>
+  <p class="cover-subtitle">一场关于"历史周期率"的经典对话</p>
+  <p class="cover-date">1945年 · 七月</p>
+  <div class="scroll-hint">向下滑动探索</div>
+</section>
+
+<!-- ======== 第2页：视频 ======== -->
+<section class="fullscreen-page video-page" id="page-video">
+  <div class="section-label">历史影像</div>
+  <h2 class="section-title">窑洞对 · 历史回眸</h2>
+
+  <div class="video-frame">
+    <div class="video-icon">🎬</div>
+    <p class="video-placeholder-text">
+      视频即将上线<br>
+      <span style="font-size:0.8rem">1945年7月 · 黄炎培访问延安</span>
+    </p>
+  </div>
+
+  <p class="video-caption text-dim" style="font-size:var(--text-sm);margin-top:var(--space-xl);max-width:400px;">
+    1945年7月4日，民主人士黄炎培一行访问延安。在杨家岭毛泽东的窑洞里，
+    一场关于中国前途命运、关于如何跳出"历史周期率"的经典对话由此诞生。
+  </p>
+
+  <div class="scroll-hint">继续探索</div>
+</section>
+
+<!-- ======== 第3页：人物卡片 ======== -->
+<section class="fullscreen-page characters-page" id="page-characters">
+  <div class="section-label">历史人物</div>
+  <h2 class="section-title">对话的双方</h2>
+
+  <!-- 毛泽东卡片 -->
+  <div class="character-card"
+       data-name="毛泽东"
+       data-years="1893 — 1976"
+       data-role="中共中央主席 · 窑洞对答者"
+       data-quote="我们已经找到新路，我们能跳出这周期率。这条新路，就是民主。只有让人民来监督政府，政府才不敢松懈。只有人人起来负责，才不会人亡政息。"
+       data-audio="assets/audio/mao-yaodongdui.mp3"
+       data-photo="../../assets/images/characters/maozedong.png"
+       data-bio="毛泽东（1893—1976），湖南湘潭人，伟大的马克思主义者，无产阶级革命家、战略家和理论家，中国共产党、中国人民解放军和中华人民共和国的主要创立者。
+
+1945年7月，在抗日战争即将取得最后胜利的前夕，毛泽东在杨家岭的窑洞里接待了前来延安访问的黄炎培等六位民主人士。当黄炎培提出著名的&#34;历史周期率&#34;问题时，毛泽东深思后给出了&#34;民主&#34;的答案。
+
+这一回答不仅展现了他对中国历史规律的深刻洞察，更体现了他对未来新中国政治制度的前瞻性思考。&#34;窑洞对&#34;成为中国共产党与民主党派坦诚交流、共商国是的经典篇章。">
+    <div class="avatar-circle">
+      <img class="avatar-photo" src="../../assets/images/characters/maozedong.png" alt="毛泽东">
+      <span class="avatar-initial">毛</span>
+    </div>
+    <div class="char-info">
+      <div class="char-name">毛泽东</div>
+      <div class="char-role-tag">窑洞对答者</div>
+      <div class="char-quote-preview">"我们已经找到新路……这条新路，就是民主。"</div>
+    </div>
+    <span class="card-arrow">›</span>
+  </div>
+
+  <!-- 黄炎培卡片 -->
+  <div class="character-card"
+       data-name="黄炎培"
+       data-years="1878 — 1965"
+       data-role="民主人士 · 中国民主建国会创始人"
+       data-quote="我生六十多年，耳闻的不说，所亲眼看到的，真所谓'其兴也勃焉，其亡也忽焉'……一部历史，没有能跳出这周期率。"
+       data-audio="assets/audio/huang-yaodongdui.mp3"
+       data-photo="../../assets/images/characters/huangyanpei.jpg"
+       data-bio="黄炎培（1878—1965），江苏川沙（今属上海浦东）人，著名教育家、社会活动家，中国民主同盟和中国民主建国会的主要创始人之一。
+
+1945年7月，黄炎培以国民参政会参政员身份，会同褚辅成、冷遹、左舜生、章伯钧、傅斯年等六人访问延安。在杨家岭毛泽东的窑洞里，他坦率地提出了困扰中国历代王朝的&#34;历史周期率&#34;问题——&#34;其兴也勃焉，其亡也忽焉&#34;。
+
+黄炎培的提问，代表了当时中国知识分子对国家前途命运的深切忧虑。而毛泽东&#34;民主&#34;的回答，让他看到了中国走出历史循环的希望。他在《延安归来》一书中详述此行，向国统区人民真实展现了延安的政治风貌。">
+    <div class="avatar-circle">
+      <img class="avatar-photo" src="../../assets/images/characters/huangyanpei.jpg" alt="黄炎培">
+      <span class="avatar-initial">黄</span>
+    </div>
+    <div class="char-info">
+      <div class="char-name">黄炎培</div>
+      <div class="char-role-tag">历史周期率提问者</div>
+      <div class="char-quote-preview">"其兴也勃焉，其亡也忽焉……"</div>
+    </div>
+    <span class="card-arrow">›</span>
+  </div>
+
+  <!-- 页脚导航 -->
+  <div class="page-footer">
+    <span class="back-link">← 返回地图</span>
+    <div class="page-dots">
+      <div class="page-dot active"></div>
+      <div class="page-dot"></div>
+      <div class="page-dot"></div>
+    </div>
+    <span style="font-size:var(--text-xs);color:var(--color-text-muted)">3 / 3</span>
+  </div>
+</section>
+
+<!-- ======== 人物详情弹窗 ======== -->
+<div class="overlay" id="character-overlay">
+  <button class="overlay-close" id="overlay-close-btn">✕</button>
+  <div class="overlay-panel" id="character-detail"></div>
+</div>
+
+<!-- ======== 脚本 ======== -->
+<script>
+// ===== 人物详情弹窗 =====
+(function() {
+  const overlay = document.getElementById('character-overlay');
+  const detailEl = document.getElementById('character-detail');
+  const closeBtn = document.getElementById('overlay-close-btn');
+
+  // 关闭弹窗
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    AudioPlayer.stopAll();
+  }
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // 渲染详情内容
+  function renderDetail(c) {
+    var photoPath = c.getAttribute('data-photo') || '';
+    return `
+      <div class="char-detail">
+        <!-- 大照片区域 -->
+        <div class="char-hero-photo">
+          <div class="char-hero-illust">
+            <div class="illust-silhouette"></div>
+            <div class="illust-label">${c.getAttribute('data-name') || ''}</div>
+          </div>
+          <img class="char-hero-img"
+               src="${photoPath}"
+               alt="${c.getAttribute('data-name') || ''}"
+               onload="this.classList.add('loaded');this.parentElement.querySelector('.char-hero-illust').style.display='none'"
+               onerror="this.style.display='none'">
+        </div>
+        <p class="photo-tip">📷 将高清照片放入 assets/images/characters/ 即可显示</p>
+
+        <h2 class="char-detail-name">${c.getAttribute('data-name') || ''}</h2>
+        <p class="char-detail-years">${c.getAttribute('data-years') || ''}</p>
+        <p class="char-detail-role">${c.getAttribute('data-role') || ''}</p>
+
+        <div class="divider-gold"></div>
+
+        <div class="char-detail-bio">
+          ${(c.getAttribute('data-bio') || '').split('\n').filter(Boolean).map(function(p) { return '<p>' + p.trim() + '</p>'; }).join('')}
+        </div>
+
+        ${c.getAttribute('data-quote') ? `
+        <div class="char-quote-block">
+          <p class="char-quote-text">"${c.getAttribute('data-quote')}"</p>
+          ${c.getAttribute('data-audio') ? '<button class="audio-btn" data-audio="' + c.getAttribute('data-audio') + '" title="点击播放">🔊</button>' : ''}
+        </div>` : ''}
+      </div>
+    `;
+  }
+
+  // 音频播放器
+  window.AudioPlayer = {
+    currentAudio: null,
+    currentBtn: null,
+    toggle: function(btn, url) {
+      if (this.currentBtn === btn) {
+        if (this.currentAudio && !this.currentAudio.paused) {
+          this.currentAudio.pause();
+          btn.classList.remove('playing');
+          btn.textContent = '🔊';
+        } else if (this.currentAudio) {
+          this.currentAudio.play();
+          btn.classList.add('playing');
+          btn.textContent = '⏸';
+        }
+        return;
+      }
+      this.stopAll();
+      this.currentAudio = new Audio(url);
+      this.currentBtn = btn;
+      btn.classList.add('playing');
+      btn.textContent = '⏸';
+      this.currentAudio.play().catch(function(){});
+      this.currentAudio.addEventListener('ended', this.stopAll.bind(this));
+    },
+    stopAll: function() {
+      if (this.currentAudio) {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0;
+        this.currentAudio = null;
+      }
+      if (this.currentBtn) {
+        this.currentBtn.classList.remove('playing');
+        this.currentBtn.textContent = '🔊';
+        this.currentBtn = null;
+      }
+    }
+  };
+
+  // 卡片点击事件
+  document.querySelectorAll('.character-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      detailEl.innerHTML = renderDetail(this);
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // 绑定弹窗内音频按钮
+      setTimeout(function() {
+        var btn = detailEl.querySelector('.audio-btn[data-audio]');
+        if (btn) {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            AudioPlayer.toggle(this, this.getAttribute('data-audio'));
+          });
+        }
+      }, 100);
+    });
+  });
+})();
+
+// ===== 卡片头像照片加载 =====
+(function() {
+  document.querySelectorAll('.avatar-photo').forEach(function(img) {
+    img.addEventListener('load', function() {
+      this.classList.add('loaded');
+      var initial = this.parentElement.querySelector('.avatar-initial');
+      if (initial) initial.style.display = 'none';
+    });
+    // 如果图片已缓存加载完成
+    if (img.complete && img.naturalWidth > 0) {
+      img.classList.add('loaded');
+      var initial = img.parentElement.querySelector('.avatar-initial');
+      if (initial) initial.style.display = 'none';
+    }
+  });
+})();
+
+// ===== 页面指示器 =====
+(function() {
+  var pages = document.querySelectorAll('.fullscreen-page');
+  var dots = document.querySelectorAll('.page-dot');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.from(pages).indexOf(entry.target);
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      }
+    });
+  }, { threshold: 0.5 });
+  pages.forEach(function(p) { observer.observe(p); });
+})();
+</script>
+
+</body>
+</html>
