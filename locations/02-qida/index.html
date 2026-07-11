@@ -237,10 +237,9 @@
     width: 100%; height: 100%;
     border-radius: var(--radius-full);
     object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-out);
   }
-  .avatar-photo.loaded { opacity: 1; }
+  /* 图片加载失败时用 .broken 类隐藏，露出底层CSS剪影 */
+  .avatar-photo.broken { opacity: 0; pointer-events: none; }
 
   .char-info { flex: 1; min-width: 0; }
   .char-name {
@@ -307,10 +306,9 @@
     width: 100%; height: 100%;
     object-fit: cover;
     position: absolute; inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-out);
   }
-  .char-hero-img.loaded { opacity: 1; }
+  /* 图片加载失败时用 .broken 类隐藏，露出底层插画占位 */
+  .char-hero-img.broken { opacity: 0; pointer-events: none; }
 
   .char-detail-name {
     font-size: var(--text-2xl); margin-bottom: 2px;
@@ -609,7 +607,7 @@
           '<div class="illust-label">' + (c.getAttribute('data-name') || '') + '</div>',
         '</div>',
         hasPhoto
-          ? '<img class="char-hero-img" src="' + photoPath + '" alt="' + (c.getAttribute('data-name') || '') + '" onload="this.classList.add(\'loaded\');this.parentElement.querySelector(\'.char-hero-illust\').style.display=\'none\'" onerror="this.style.opacity=\'0\'">'
+          ? '<img class="char-hero-img" src="' + photoPath + '" alt="' + (c.getAttribute('data-name') || '') + '" onload="var ill=this.parentElement.querySelector(\'.char-hero-illust\');if(ill)ill.style.display=\'none\'" onerror="this.classList.add(\'broken\')">'
           : '',
       '</div>',
       '<p class="photo-tip">📷 将高清照片放入 assets/images/characters/ 即可显示</p>',
@@ -690,72 +688,19 @@
   });
 })();
 
-// ===== 卡片头像照片加载（带重试 + 安全兜底） =====
+// ===== 卡片头像图片加载 — 默认显示，仅处理失败降级 =====
 (function() {
-  var MAX_RETRIES = 3;
-  var RETRY_DELAY = 2000;
-  var SAFETY_CHECK_DELAY = 5000; // 5秒后强制兜底检查
-
-  function showPhoto(img) {
-    img.classList.add('loaded');
-    var initial = img.parentElement.querySelector('.avatar-initial');
-    if (initial) initial.style.display = 'none';
-  }
-
-  function hidePhoto(img) {
-    // 加载失败：用 opacity 隐藏（保留空间），露出底层CSS剪影 + 文字
-    img.style.opacity = '0';
-    var initial = img.parentElement.querySelector('.avatar-initial');
-    if (initial) initial.style.display = '';
-  }
-
-  function loadWithRetry(img, retriesLeft) {
-    // 缓存命中 — 直接显示
-    if (img.complete && img.naturalWidth > 0) {
-      showPhoto(img);
-      return;
-    }
-
-    img.addEventListener('load', function() {
-      showPhoto(this);
-    }, { once: true });
-
-    img.addEventListener('error', function() {
-      if (retriesLeft > 0) {
-        console.warn('图片加载失败，重试中... (' + (MAX_RETRIES - retriesLeft + 1) + '/' + MAX_RETRIES + '): ' + this.src);
-        var self = this;
-        setTimeout(function() {
-          var url = self.src.split('?')[0];
-          self.src = url + '?retry=' + Date.now();
-          loadWithRetry(self, retriesLeft - 1);
-        }, RETRY_DELAY);
-      } else {
-        console.warn('图片加载最终失败: ' + this.src);
-        hidePhoto(this);
-      }
-    }, { once: true });
-
-    // 再次检查（可能在绑定事件前已从缓存加载完成）
-    if (img.complete && img.naturalWidth > 0) {
-      showPhoto(img);
-    }
-  }
-
-  // 初始化所有头像
+  // 图片默认可见（透明度1），自然覆盖底层CSS剪影
+  // 仅处理加载失败：添加 .broken 类隐藏破损图标，露出底层剪影
   document.querySelectorAll('.avatar-photo').forEach(function(img) {
-    loadWithRetry(img, MAX_RETRIES);
+    img.addEventListener('error', function() {
+      this.classList.add('broken');
+    }, { once: true });
+    // 处理可能已失败的图片（缓存场景）
+    if (img.complete && img.naturalWidth === 0) {
+      img.classList.add('broken');
+    }
   });
-
-  // 安全兜底：5秒后强制检查所有未显示的头像
-  // 解决浏览器因 display:none / 网络慢导致 load 事件静默丢失的问题
-  setTimeout(function() {
-    document.querySelectorAll('.avatar-photo:not(.loaded)').forEach(function(img) {
-      if (img.naturalWidth > 0 && img.naturalWidth > 0) {
-        // 图片实际已加载但事件丢失 — 强制显示
-        showPhoto(img);
-      }
-    });
-  }, SAFETY_CHECK_DELAY);
 })();
 
 // ===== 页面指示器 =====
