@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>1945延安 · 历史沙盘</title>
+<link rel="stylesheet" href="assets/css/common.css">
+<style>
+  :root {
+    --accent:       #C41E24;
+    --accent-light: #E8484D;
+  }
+
+  body {
+    background: var(--color-bg-deep);
+  }
+
+  /* ===== 封面 ===== */
+  .hero {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-lg);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 35%, rgba(196,30,36,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 25% at 50% 30%, rgba(232,72,77,0.06) 0%, transparent 50%),
+      var(--color-bg-deep);
+  }
+
+  .hero-bg-texture {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 1; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z' fill='%23D4A574'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+  }
+
+  /* 灯笼光晕 */
+  .lantern-glow {
+    position: absolute; top: 8%; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 300px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(196,30,36,0.15) 0%, transparent 60%);
+    pointer-events: none; z-index: 1;
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 1; transform: translateX(-50%) scale(1.05); }
+  }
+
+  /* 队徽 */
+  .logo-wrap {
+    position: relative; z-index: 2;
+    width: 80px; height: 80px;
+    margin-bottom: var(--space-lg);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.1s forwards;
+  }
+  .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+
+  .hero-tag {
+    position: relative; z-index: 2;
+    font-size: var(--text-xs); letter-spacing: 0.15em;
+    color: var(--accent-light);
+    border: 1px solid rgba(196,30,36,0.3);
+    padding: 4px 16px; border-radius: 2px;
+    margin-bottom: var(--space-xl);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.15s forwards;
+  }
+
+  .hero-title {
+    position: relative; z-index: 2;
+    font-family: var(--font-display);
+    font-size: 2.2rem; font-weight: 900;
+    color: var(--color-gold-light);
+    letter-spacing: 0.15em;
+    margin-bottom: var(--space-sm);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.25s forwards;
+    text-shadow: 0 0 30px rgba(212,165,116,0.3);
+  }
+
+  .hero-sub {
+    position: relative; z-index: 2;
+    font-size: var(--text-sm); color: var(--color-text-dim);
+    letter-spacing: 0.08em; margin-bottom: var(--space-2xl);
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 0.35s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: var(--space-2xl); left: 50%;
+    transform: translateX(-50%); z-index: 2;
+    color: var(--color-text-dim); font-size: var(--text-xs);
+    animation: bounce-down 2s ease-in-out infinite;
+    pointer-events: none;
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
+  }
+  .hero-scroll::before {
+    content: '';
+    width: 24px; height: 24px;
+    border-right: 2px solid var(--color-text-dim);
+    border-bottom: 2px solid var(--color-text-dim);
+    transform: rotate(45deg);
+    opacity: 0.6;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce-down {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ===== 地点列表 ===== */
+  .locations-section {
+    width: 100%;
+    padding: var(--space-3xl) var(--space-lg) var(--space-3xl);
+    display: flex; flex-direction: column; align-items: center;
+    background: linear-gradient(to bottom, var(--color-bg-deep), var(--color-bg-primary) 30%);
+  }
+
+  .section-title-wrap {
+    text-align: center; margin-bottom: var(--space-2xl);
+  }
+  .section-label {
+    font-size: var(--text-xs); letter-spacing: 0.15em;
+    color: var(--accent-light); margin-bottom: var(--space-sm);
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-xl); color: var(--color-gold-light);
+    letter-spacing: 0.08em;
+  }
+
+  /* 连接线 */
+  .timeline-line {
+    position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--color-border) 10%, var(--color-border) 90%, transparent);
+  }
+
+  /* 地点卡片 */
+  .location-list {
+    width: 100%; max-width: 420px;
+    position: relative;
+    display: flex; flex-direction: column; gap: var(--space-lg);
+  }
+
+  .location-card {
+    position: relative;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg) var(--space-xl);
+    padding-left: calc(var(--space-xl) + 28px);
+    cursor: pointer;
+    transition: all var(--duration-base) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .location-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    transform: translateX(4px);
+  }
+  .location-card:active { transform: scale(0.98); }
+
+  /* 时间线圆点 */
+  .location-dot {
+    position: absolute; left: -5px; top: 24px;
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid var(--color-border);
+    background: var(--color-bg-deep);
+    z-index: 2; transition: all var(--duration-base) var(--ease-out);
+  }
+  .location-card:hover .location-dot,
+  .location-card.active .location-dot {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(196,30,36,0.4);
+  }
+  .location-card.active .location-dot {
+    background: var(--accent);
+  }
+
+  .loc-month {
+    font-size: var(--text-xs); color: var(--accent-light);
+    letter-spacing: 0.08em; margin-bottom: 2px;
+  }
+  .loc-name {
+    font-family: var(--font-display);
+    font-size: var(--text-base); font-weight: 700;
+    color: var(--color-gold-light);
+    margin-bottom: 4px;
+  }
+  .loc-venue {
+    font-size: var(--text-xs); color: var(--color-text-dim);
+    margin-bottom: var(--space-sm);
+  }
+  .loc-desc {
+    font-size: var(--text-sm); color: var(--color-text-muted);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 即将上线卡片 */
+  .location-card.coming-soon {
+    opacity: 0.5; cursor: default; pointer-events: none;
+  }
+  .location-card.coming-soon:hover {
+    border-color: var(--color-border);
+    box-shadow: none;
+    transform: none;
+  }
+  .coming-badge {
+    display: inline-block;
+    font-size: 0.65rem; color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    padding: 1px 8px; border-radius: 2px;
+    margin-left: var(--space-sm); vertical-align: middle;
+  }
+
+  /* 页脚 */
+  .site-footer {
+    width: 100%; padding: var(--space-2xl) var(--space-lg);
+    text-align: center;
+    background: var(--color-bg-deep);
+    border-top: 1px solid var(--color-border);
+  }
+  .site-footer p { font-size: var(--text-xs); color: var(--color-text-muted); line-height: 2; }
+</style>
+</head>
+<body>
+
+<!-- ======== 封面 ======== -->
+<section class="hero">
+  <div class="hero-bg-texture"></div>
+  <div class="lantern-glow"></div>
+
+  <div class="logo-wrap">
+    <img src="assets/images/logo.png" alt="队徽" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-tag">延安 · 1945</div>
+  <h1 class="hero-title">历史沙盘</h1>
+  <p class="hero-sub">探索1945年延安的七个重要历史现场</p>
+
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<!-- ======== 地点列表 ======== -->
+<section class="locations-section" id="locations">
+  <div class="section-title-wrap">
+    <div class="section-label">历史地图</div>
+    <h2 class="section-heading">七个地点</h2>
+  </div>
+
+  <div class="location-list">
+    <!-- 1. 整风运动 — 即将上线 -->
+    <div class="location-card coming-soon">
+      <div class="location-dot"></div>
+      <div class="loc-month">1941 — 1945</div>
+      <div class="loc-name">整风运动 <span class="coming-badge">即将上线</span></div>
+      <div class="loc-venue">杨家岭 · 中央党校</div>
+      <div class="loc-desc">全党思想统一，"实事求是"思想路线确立，为七大奠定思想基础</div>
+    </div>
+
+    <!-- 2. 中共七大 ✅ -->
+    <a class="location-card active" href="locations/02-qida/">
+      <div class="location-dot"></div>
+      <div class="loc-month">1945 · 四月 — 六月</div>
+      <div class="loc-name">中共七大</div>
+      <div class="loc-venue">杨家岭 · 中央大礼堂</div>
+      <div class="loc-desc">确立毛泽东思想为全党指导思想，选举产生"五大书记"</div>
+    </a>
+
+    <!-- 3. 窑洞对 ✅ -->
+    <a class="location-card active" href="locations/03-yaodongdui/">
+      <div class="location-dot"></div>
+      <div class="loc-month">1945 · 七月</div>
+      <div class="loc-name">窑洞对</div>
+      <div class="loc-venue">杨家岭 · 毛泽东旧居</div>
+      <div class="loc-desc">黄炎培提出"历史周期率"，毛泽东以"民主"作答</div>
+    </a>
+
+    <!-- 4. 抗大 — 即将上线 -->
+    <div class="location-card coming-soon">
+      <div class="location-dot"></div>
+      <div class="loc-month">1936 — 1945</div>
+      <div class="loc-name">抗日军政大学 <span class="coming-badge">即将上线</span></div>
+      <div class="loc-venue">抗大旧址</div>
+      <div class="loc-desc">"团结、紧张、严肃、活泼"，培养抗战干部的摇篮</div>
+    </div>
+
+    <!-- 5. 抗战胜利集会 — 即将上线 -->
+    <div class="location-card coming-soon">
+      <div class="location-dot"></div>
+      <div class="loc-month">1945 · 八月</div>
+      <div class="loc-name">抗战胜利集会 <span class="coming-badge">即将上线</span></div>
+      <div class="loc-venue">延安 · 南门外广场</div>
+      <div class="loc-desc">庆祝十四年抗战胜利，延安全城欢庆</div>
+    </div>
+
+    <!-- 6. 重庆谈判筹备 — 即将上线 -->
+    <div class="location-card coming-soon">
+      <div class="location-dot"></div>
+      <div class="loc-month">1945 · 八月 — 十月</div>
+      <div class="loc-name">重庆谈判筹备 <span class="coming-badge">即将上线</span></div>
+      <div class="loc-venue">枣园 · 领导人旧居</div>
+      <div class="loc-desc">党中央密集开会制定谈判方针，毛泽东亲赴重庆</div>
+    </div>
+
+    <!-- 7. 战后西北统战治理 — 即将上线 -->
+    <div class="location-card coming-soon">
+      <div class="location-dot"></div>
+      <div class="loc-month">1945 · 十月起</div>
+      <div class="loc-name">战后西北统战治理 <span class="coming-badge">即将上线</span></div>
+      <div class="loc-venue">花石砭 · 西北局旧址</div>
+      <div class="loc-desc">习仲勋主持西北局，统筹战后边区治理与统一战线</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 页脚 ======== -->
+<footer class="site-footer">
+  <p>1945 延安 · 历史沙盘互动网页</p>
+  <p>铭记历史 · 传承精神</p>
+</footer>
+
+</body>
+</html>

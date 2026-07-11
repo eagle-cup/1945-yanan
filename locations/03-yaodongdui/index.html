@@ -586,20 +586,55 @@
   });
 })();
 
-// ===== 卡片头像照片加载 =====
+// ===== 卡片头像照片加载（带重试） =====
 (function() {
-  document.querySelectorAll('.avatar-photo').forEach(function(img) {
-    img.addEventListener('load', function() {
-      this.classList.add('loaded');
-      var initial = this.parentElement.querySelector('.avatar-initial');
-      if (initial) initial.style.display = 'none';
-    });
-    // 如果图片已缓存加载完成
+  var MAX_RETRIES = 3;
+  var RETRY_DELAY = 2000;
+
+  function showPhoto(img) {
+    img.classList.add('loaded');
+    var initial = img.parentElement.querySelector('.avatar-initial');
+    if (initial) initial.style.display = 'none';
+  }
+
+  function loadWithRetry(img, retriesLeft) {
+    // 图片已成功加载（缓存命中）
     if (img.complete && img.naturalWidth > 0) {
-      img.classList.add('loaded');
-      var initial = img.parentElement.querySelector('.avatar-initial');
-      if (initial) initial.style.display = 'none';
+      showPhoto(img);
+      return;
     }
+
+    img.addEventListener('load', function() {
+      showPhoto(this);
+    }, { once: true });
+
+    img.addEventListener('error', function() {
+      if (retriesLeft > 0) {
+        console.warn('图片加载失败，重试中... (' + (MAX_RETRIES - retriesLeft + 1) + '/' + MAX_RETRIES + '): ' + this.src);
+        var self = this;
+        setTimeout(function() {
+          // 添加缓存破坏参数避免CDN缓存问题
+          var url = self.src.split('?')[0];
+          self.src = url + '?retry=' + Date.now();
+          loadWithRetry(self, retriesLeft - 1);
+        }, RETRY_DELAY);
+      } else {
+        console.warn('图片加载最终失败: ' + this.src);
+        // 降级：显示文字首字母，隐藏破损图片
+        this.style.display = 'none';
+        var initial = this.parentElement.querySelector('.avatar-initial');
+        if (initial) initial.style.display = '';
+      }
+    }, { once: true });
+
+    // 再次检查（可能在绑定事件前已完成加载）
+    if (img.complete && img.naturalWidth > 0) {
+      showPhoto(img);
+    }
+  }
+
+  document.querySelectorAll('.avatar-photo').forEach(function(img) {
+    loadWithRetry(img, MAX_RETRIES);
   });
 })();
 
