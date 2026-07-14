@@ -59,6 +59,7 @@
         <small>点击相框进入完整档案</small>
       </header>
       <div class="people-grid">${location.people.map(card).join('')}</div>
+      <a class="next-section people-next" href="#video"><span>进入历史影像</span><b aria-hidden="true">↓</b></a>
     </section>
 
     <section class="location-section video-section" id="video" aria-labelledby="video-heading">

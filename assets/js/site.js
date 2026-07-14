@@ -38,8 +38,9 @@
     marker.style.setProperty('--x', location.map.x);
     marker.style.setProperty('--y', location.map.y);
     marker.style.setProperty('--marker', location.accent);
+    marker.dataset.labelSide = location.map.labelSide || 'bottom';
     marker.setAttribute('aria-label', `进入${location.title}：${location.venue}`);
-    marker.innerHTML = `<span class="marker-number">${location.number}</span><span class="marker-label">${location.shortTitle}</span>`;
+    marker.innerHTML = `<span class="marker-number">${location.number}</span><span class="marker-label"><strong>${location.shortTitle}</strong><small>${location.map.landmarkLabel || location.venue}</small></span>`;
     marker.addEventListener('click', () => {
       map.querySelectorAll('.map-marker').forEach((item) => item.classList.remove('is-active'));
       marker.classList.add('is-active');

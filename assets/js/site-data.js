@@ -33,7 +33,7 @@
   window.YananData = {
     locations: [
       {
-        id: 'zhengfeng', number: '03', page: '01-zhengfeng', title: '整风运动', shortTitle: '整风', venue: '杨家岭中央党校', date: '1941年5月—1945年春', month: '思想统一', accent: '#9a6b3c', accentSoft: '#e1c08f', map: { x: 22, y: 38 },
+        id: 'zhengfeng', number: '01', page: '01-zhengfeng', title: '整风运动', shortTitle: '整风', venue: '杨家岭中央党校', date: '1941年5月—1945年春', month: '思想统一', accent: '#9a6b3c', accentSoft: '#e1c08f', map: { x: 56, y: 11, labelSide: 'left', landmarkLabel: '中央党校' },
         theme: '从学习与讨论里，寻找实事求是的共同尺度。', summary: '延安整风在1945年春完成历史性总结，为中共七大的召开准备了思想基础。',
         coverImage: `${root}images/locations/rectification-study.jpg`, coverCredit: '项目史料文档内嵌图片，原始授权待补录', coverPosition: 'center center', videoPoster: `${root}images/locations/yangjialing-caves.jpg`,
         videoCaption: '从学习文件到作风整顿，思想上的共同语言如何成为组织行动的前提。',
@@ -44,7 +44,7 @@
         ]
       },
       {
-        id: 'qida', number: '01', page: '02-qida', title: '中共七大', shortTitle: '中共七大', venue: '杨家岭中央大礼堂', date: '1945年4月—6月', month: '春夏之交', accent: '#c6413a', accentSoft: '#f4b2a9', map: { x: 45, y: 25 },
+        id: 'qida', number: '02', page: '02-qida', title: '中共七大', shortTitle: '中共七大', venue: '杨家岭中央大礼堂', date: '1945年4月—6月', month: '春夏之交', accent: '#c6413a', accentSoft: '#f4b2a9', map: { x: 57, y: 27, labelSide: 'left', landmarkLabel: '中央大礼堂' },
         theme: '一次大会，把经验、路线与对战后中国的判断放到同一张议程上。', summary: '中共七大在杨家岭召开，系统总结历史经验，制定夺取抗战胜利和建设新中国的政治路线。',
         coverImage: `${root}images/locations/yangjialing-auditorium.jpg`, coverCredit: 'wanghongliu，CC BY-SA 3.0，Wikimedia Commons', coverPosition: 'center center', videoPoster: `${root}images/locations/yanan-conference-1945.jpg`,
         videoCaption: '礼堂内的报告、讨论与选举，凝结为战后中国政治道路的重要节点。', videoSrc: `${root}videos/qida-history.h264.mp4`, videoLabel: '中共七大历史影像',
@@ -57,7 +57,7 @@
         ]
       },
       {
-        id: 'yaodongdui', number: '02', page: '03-yaodongdui', title: '窑洞对', shortTitle: '窑洞对', venue: '杨家岭毛泽东旧居', date: '1945年7月', month: '七月', accent: '#c4935c', accentSoft: '#f0d4ad', map: { x: 54, y: 43 },
+        id: 'yaodongdui', number: '03', page: '03-yaodongdui', title: '窑洞对', shortTitle: '窑洞对', venue: '杨家岭毛泽东旧居', date: '1945年7月', month: '七月', accent: '#c4935c', accentSoft: '#f0d4ad', map: { x: 73, y: 18, labelSide: 'top', landmarkLabel: '毛泽东旧居' },
         theme: '一孔窑洞里的问答，追问政权如何跳出历史周期率。', summary: '黄炎培访问延安，在杨家岭窑洞中提出“历史周期率”之问，毛泽东以“民主”作答。',
         coverImage: `${root}images/locations/yangjialing-caves-commons.jpg`, coverCredit: 'wanghongliu，CC BY-SA 3.0，杨家岭毛泽东旧居', coverPosition: 'center center', videoPoster: `${root}images/locations/rectification-study.jpg`,
         videoCaption: '一问一答的分量，在于它把国家前途与人民监督放在同一张历史桌面上。', videoSrc: `${root}videos/yaodongdui-history.h264.mp4`, videoLabel: '窑洞对历史影像',
@@ -67,7 +67,7 @@
         ]
       },
       {
-        id: 'kangda', number: '04', title: '抗大', shortTitle: '抗大', venue: '抗日军政大学旧址', date: '1945年', month: '全年办学', accent: '#5d7a4a', accentSoft: '#c0d79f', map: { x: 30, y: 59 },
+        id: 'kangda', number: '04', title: '抗大', shortTitle: '抗大', venue: '抗日军政大学旧址', date: '1945年', month: '全年办学', accent: '#5d7a4a', accentSoft: '#c0d79f', map: { x: 43, y: 45, labelSide: 'left', landmarkLabel: '抗大旧址' },
         theme: '在窑洞课堂、训练场与行军路之间，培养走向战场与基层的干部。', summary: '1945年的抗大持续承担干部培养任务，也面向战后局势调整办学与人才输送方向。',
         coverImage: `${root}images/locations/kangda-old-site.jpg`, coverCredit: 'H2v5o68z，CC0 1.0，Wikimedia Commons', coverPosition: 'center center', videoPoster: `${root}images/locations/rectification-study.jpg`,
         videoCaption: '“团结、紧张、严肃、活泼”八个字，浓缩了这所军政学校的学习与行动气质。',
@@ -78,7 +78,7 @@
         ]
       },
       {
-        id: 'shengli', number: '05', title: '抗战胜利集会', shortTitle: '胜利集会', venue: '革命纪念馆', date: '1945年8月', month: '胜利时刻', accent: '#cfa346', accentSoft: '#f7df9b', map: { x: 66, y: 60 },
+        id: 'shengli', number: '05', title: '抗战胜利集会', shortTitle: '胜利集会', venue: '革命纪念馆', date: '1945年8月', month: '胜利时刻', accent: '#cfa346', accentSoft: '#f7df9b', map: { x: 66, y: 70, labelSide: 'right', landmarkLabel: '革命纪念馆' },
         theme: '十四年抗战迎来胜利，但庆祝之后，新的问题也已经到来。', summary: '日本宣布投降后，延安举行群众集会，庆祝来之不易的抗战胜利。',
         coverImage: `${root}images/locations/victory-rally-1945.jpg`, coverCredit: '项目史料文档内嵌图片，原始授权待补录', coverPosition: 'center center', videoPoster: `${root}images/locations/yanan-conference-1945.jpg`,
         videoCaption: '消息传来后，城市与乡村的欢庆汇成一场关于胜利、牺牲与新期待的公共记忆。',
@@ -88,7 +88,7 @@
         ]
       },
       {
-        id: 'chongqing', number: '06', title: '重庆谈判筹备', shortTitle: '重庆谈判', venue: '枣园领导人旧居', date: '1945年8月—10月', month: '胜利之后', accent: '#526d9e', accentSoft: '#c2d6f4', map: { x: 73, y: 35 },
+        id: 'chongqing', number: '06', title: '重庆谈判筹备', shortTitle: '重庆谈判', venue: '枣园领导人旧居', date: '1945年8月—10月', month: '胜利之后', accent: '#526d9e', accentSoft: '#c2d6f4', map: { x: 20, y: 32, labelSide: 'right', landmarkLabel: '枣园旧居' },
         theme: '从枣园的研判到延安机场的挥手，为和平争取一个可能。', summary: '面对战后中国的走向，中共中央在延安研判形势、制定方针，并作出赴重庆谈判的重大决策。',
         coverImage: `${root}images/locations/mao-leaving-yanan-1945.jpg`, coverCredit: '公共领域，Wikimedia Commons', coverPosition: 'center center', videoPoster: `${root}images/locations/zaoyuan-site.jpg`,
         videoCaption: '从枣园的研判到赴重庆的出发，这一程既是谈判，也是对和平前途的争取。',
@@ -99,7 +99,7 @@
         ]
       },
       {
-        id: 'xibei', number: '07', title: '战后西北统战治理', shortTitle: '西北治理', venue: '花石砭中共中央西北局旧址', date: '1945年10月起', month: '战后建设', accent: '#d58146', accentSoft: '#f4c99f', map: { x: 78, y: 66 },
+        id: 'xibei', number: '07', title: '战后西北统战治理', shortTitle: '西北治理', venue: '花石砭中共中央西北局旧址', date: '1945年10月起', month: '战后建设', accent: '#d58146', accentSoft: '#f4c99f', map: { x: 45, y: 87, labelSide: 'right', landmarkLabel: '西北局旧址' },
         theme: '战争结束后，恢复生产、团结各方与安定社会成为新的日常课题。', summary: '抗战胜利后，西北局围绕边区恢复、统一战线与社会治理展开新的工作。',
         coverImage: `${root}images/locations/xibei-bureau-site.jpg`, coverCredit: 'Liuxingy，CC BY-SA 4.0，中共中央西北局旧址', coverPosition: 'center center', videoPoster: `${root}images/locations/xibei-bureau-site.jpg`,
         videoCaption: '战后治理的第一步，是让生产恢复、社会安定，并把不同群体团结到新的建设任务中。',
