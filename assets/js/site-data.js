@@ -36,7 +36,7 @@
         id: 'zhengfeng', number: '01', page: '01-zhengfeng', title: '整风运动', shortTitle: '整风', venue: '杨家岭中央党校', date: '1941年5月—1945年春', month: '思想统一', accent: '#9a6b3c', accentSoft: '#e1c08f', map: { x: 56, y: 11, labelSide: 'left', landmarkLabel: '中央党校' },
         theme: '从学习与讨论里，寻找实事求是的共同尺度。', summary: '延安整风在1945年春完成历史性总结，为中共七大的召开准备了思想基础。',
         coverImage: `${root}images/locations/rectification-study.jpg`, coverCredit: '项目史料文档内嵌图片，原始授权待补录', coverPosition: 'center center', videoPoster: `${root}images/locations/yangjialing-caves.jpg`,
-        videoCaption: '从学习文件到作风整顿，思想上的共同语言如何成为组织行动的前提。',
+        videoCaption: '从学习文件到作风整顿，思想上的共同语言如何成为组织行动的前提。', videoSrc: `${root}videos/zhengfeng-history.mp4`, videoLabel: '整风运动历史影像',
         people: [
           person('mao', { role: '整风运动的重要领导者', eventSummary: '整风期间，他围绕学风、党风和文风提出重要论述，强调把马克思主义基本原理同中国革命具体实践结合起来。', significance: '“实事求是”由此成为理解延安整风的一把钥匙，也影响了此后党的思想建设。' }),
           person('liu', { role: '党的建设理论工作的重要参与者', eventSummary: '刘少奇关于党员修养的论述，成为整风学习的重要内容之一，回应了组织内部如何保持政治品格与工作方法的问题。', significance: '他的论述让党的建设从抽象原则落到党员的学习、检视与实践中。' }),
@@ -70,7 +70,7 @@
         id: 'kangda', number: '04', title: '抗大', shortTitle: '抗大', venue: '抗日军政大学旧址', date: '1945年', month: '全年办学', accent: '#5d7a4a', accentSoft: '#c0d79f', map: { x: 43, y: 45, labelSide: 'left', landmarkLabel: '抗大旧址' },
         theme: '在窑洞课堂、训练场与行军路之间，培养走向战场与基层的干部。', summary: '1945年的抗大持续承担干部培养任务，也面向战后局势调整办学与人才输送方向。',
         coverImage: `${root}images/locations/kangda-old-site.jpg`, coverCredit: 'H2v5o68z，CC0 1.0，Wikimedia Commons', coverPosition: 'center center', videoPoster: `${root}images/locations/rectification-study.jpg`,
-        videoCaption: '“团结、紧张、严肃、活泼”八个字，浓缩了这所军政学校的学习与行动气质。',
+        videoCaption: '“团结、紧张、严肃、活泼”八个字，浓缩了这所军政学校的学习与行动气质。', videoSrc: `${root}videos/kangda-history.mp4`, videoLabel: '抗日军政大学历史影像',
         people: [
           person('lin', { role: '抗大校长', eventSummary: '林彪曾任抗大校长，学校在艰苦环境中探索理论学习、军事训练和生产劳动相结合的办学路径。', significance: '抗大的价值不仅是课堂教育，更在于把学习、纪律与实际工作连接为一套培养机制。' }),
           person('mao', { role: '抗大教育委员会主席', eventSummary: '毛泽东为抗大题写“团结、紧张、严肃、活泼”校训，强调革命队伍既要有纪律担当，也要保持集体生机。', significance: '八字校训成为理解抗大教育理念的简洁入口。' }),
@@ -81,7 +81,7 @@
         id: 'shengli', number: '05', title: '抗战胜利集会', shortTitle: '胜利集会', venue: '革命纪念馆', date: '1945年8月', month: '胜利时刻', accent: '#cfa346', accentSoft: '#f7df9b', map: { x: 66, y: 70, labelSide: 'right', landmarkLabel: '革命纪念馆' },
         theme: '十四年抗战迎来胜利，但庆祝之后，新的问题也已经到来。', summary: '日本宣布投降后，延安举行群众集会，庆祝来之不易的抗战胜利。',
         coverImage: `${root}images/locations/victory-rally-1945.jpg`, coverCredit: '项目史料文档内嵌图片，原始授权待补录', coverPosition: 'center center', videoPoster: `${root}images/locations/yanan-conference-1945.jpg`,
-        videoCaption: '消息传来后，城市与乡村的欢庆汇成一场关于胜利、牺牲与新期待的公共记忆。',
+        videoCaption: '消息传来后，城市与乡村的欢庆汇成一场关于胜利、牺牲与新期待的公共记忆。', videoSrc: `${root}videos/shengli-history.mp4`, videoLabel: '抗战胜利集会历史影像',
         people: [
           person('zhu', { role: '八路军总司令', eventSummary: '朱德长期领导人民军队的抗日斗争。胜利之际的延安庆祝，凝结着前线与后方共同付出的代价。', significance: '从总司令到广场上的群众，胜利叙事把战争中的不同位置连接在一起。' }),
           person('mao', { role: '中共中央主席', eventSummary: '抗战胜利前后，毛泽东发表有关时局的重要论述，提醒全党在庆祝中继续面对复杂的国内形势。', significance: '这使“胜利”不只是一个结束，也成为理解战后选择的转折点。' })
@@ -91,7 +91,7 @@
         id: 'chongqing', number: '06', title: '重庆谈判筹备', shortTitle: '重庆谈判', venue: '枣园领导人旧居', date: '1945年8月—10月', month: '胜利之后', accent: '#526d9e', accentSoft: '#c2d6f4', map: { x: 20, y: 32, labelSide: 'right', landmarkLabel: '枣园旧居' },
         theme: '从枣园的研判到延安机场的挥手，为和平争取一个可能。', summary: '面对战后中国的走向，中共中央在延安研判形势、制定方针，并作出赴重庆谈判的重大决策。',
         coverImage: `${root}images/locations/mao-leaving-yanan-1945.jpg`, coverCredit: '公共领域，Wikimedia Commons', coverPosition: 'center center', videoPoster: `${root}images/locations/zaoyuan-site.jpg`,
-        videoCaption: '从枣园的研判到赴重庆的出发，这一程既是谈判，也是对和平前途的争取。',
+        videoCaption: '从枣园的研判到赴重庆的出发，这一程既是谈判，也是对和平前途的争取。', videoSrc: `${root}videos/chongqing-history.mp4`, videoLabel: '重庆谈判筹备历史影像',
         people: [
           person('mao', { role: '中共代表团成员', eventSummary: '1945年8月，毛泽东赴重庆谈判。在局势严峻复杂的环境中，这一决定体现了争取和平、揭露内战阴谋的政治担当。', significance: '离开延安的那一刻，成为理解战后中国政治选择的一张重要历史影像。' }),
           person('zhou', { role: '中共代表团成员', eventSummary: '周恩来参与谈判筹备与实际工作，并在多方政治力量之间展开沟通，为争取和平民主作出持续努力。', significance: '筹备工作并非一个瞬间的决定，而是建立在长期判断、协商与组织支持之上。' }),
@@ -102,7 +102,7 @@
         id: 'xibei', number: '07', title: '战后西北统战治理', shortTitle: '西北治理', venue: '花石砭中共中央西北局旧址', date: '1945年10月起', month: '战后建设', accent: '#d58146', accentSoft: '#f4c99f', map: { x: 45, y: 87, labelSide: 'right', landmarkLabel: '西北局旧址' },
         theme: '战争结束后，恢复生产、团结各方与安定社会成为新的日常课题。', summary: '抗战胜利后，西北局围绕边区恢复、统一战线与社会治理展开新的工作。',
         coverImage: `${root}images/locations/xibei-bureau-site.jpg`, coverCredit: 'Liuxingy，CC BY-SA 4.0，中共中央西北局旧址', coverPosition: 'center center', videoPoster: `${root}images/locations/xibei-bureau-site.jpg`,
-        videoCaption: '战后治理的第一步，是让生产恢复、社会安定，并把不同群体团结到新的建设任务中。',
+        videoCaption: '战后治理的第一步，是让生产恢复、社会安定，并把不同群体团结到新的建设任务中。', videoSrc: `${root}videos/xibei-history.mp4`, videoLabel: '战后西北统战治理历史影像',
         people: [
           person('xi', { role: '中共中央西北局书记', eventSummary: '习仲勋主持西北局工作，参与战后边区的经济恢复、统一战线和社会治理等任务。', significance: '这段工作让“胜利之后怎么办”从政治判断落到基层治理、生产与团结的具体事务中。' }),
           person('linbo', { role: '陕甘宁边区政府主席', eventSummary: '林伯渠长期参与陕甘宁边区政权建设。战后过渡时期，边区治理经验成为恢复生产、组织社会的重要基础。', significance: '理解战后西北，不能只看宏大决策，也要看公共事务如何在地方被重新组织。' })

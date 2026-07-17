@@ -13,18 +13,32 @@
   document.documentElement.style.setProperty('--accent', location.accent);
   document.documentElement.style.setProperty('--accent-soft', location.accentSoft);
 
-  const portrait = (person, mode = 'card') => {
+  const portrait = (person) => {
     if (!person.portrait) {
-      return `<div class="portrait-fallback ${mode === 'detail' ? 'detail-fallback' : ''}" aria-hidden="true"><span>${esc(person.name.slice(0, 1))}</span><small>肖像待确认</small></div>`;
+      return `<div class="portrait-fallback" aria-hidden="true"><span>${esc(person.name.slice(0, 1))}</span><small>肖像待确认</small></div>`;
     }
-    return `<img src="${esc(person.portrait)}" alt="${esc(person.name)}肖像" style="object-position:${esc(person.portraitPosition || 'center top')}" onerror="this.closest('.person-photo, .dialog-portrait').classList.add('has-image-error')">`;
+    return `<img src="${esc(person.portrait)}" alt="${esc(person.name)}肖像" style="object-position:${esc(person.portraitPosition || 'center top')}" onerror="this.closest('.person-photo').classList.add('has-image-error')">`;
   };
 
   const card = (person, index) => `
-    <article class="person-card">
-      <button class="person-open" type="button" data-person="${index}" aria-label="查看${esc(person.name)}的人物档案">
-        <span class="person-photo">${portrait(person)}</span>
-        <span class="person-copy"><strong>${esc(person.name)}</strong><small>${esc(person.role)}</small></span>
+    <article class="person-card" data-person-card="${index}">
+      <button class="person-flip" type="button" data-person="${index}" aria-pressed="false" aria-label="翻开${esc(person.name)}的人物卡片">
+        <span class="person-card-inner">
+          <span class="person-face person-front">
+            <span class="person-card-index">人物 ${String(index + 1).padStart(2, '0')}</span>
+            <span class="person-seal" aria-hidden="true">${esc(person.name.slice(0, 1))}</span>
+            <span class="person-handwriting">${esc(person.name)}</span>
+            <span class="person-print-name">${esc(person.name)}</span>
+            <span class="person-event-role">${esc(person.role)}</span>
+            <span class="person-flip-hint">轻触翻阅 <b aria-hidden="true">↻</b></span>
+          </span>
+          <span class="person-face person-back">
+            <span class="person-photo">${portrait(person)}</span>
+            <span class="person-copy"><strong>${esc(person.name)}</strong><small>${esc(person.role)}</small></span>
+            <span class="person-summary">${esc(person.eventSummary)}</span>
+            <span class="person-back-hint">轻触卡片返回正面</span>
+          </span>
+        </span>
       </button>
       ${person.audio ? `<button class="person-audio" type="button" data-audio="${esc(person.audio)}" aria-pressed="false" aria-label="播放${esc(person.name)}${esc(person.audioKind)}" title="播放录音">${icon('volume-2')}<span class="visually-hidden">播放录音</span></button>` : ''}
     </article>`;
@@ -52,11 +66,11 @@
     </section>
 
     <section class="location-section people-section people-count-${peopleCount}" id="people" aria-labelledby="people-heading">
-      <div class="people-ornaments" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="people-ornaments" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <header class="section-header">
         <p>人物志 · 在场的人</p>
         <h2 id="people-heading">把目光交给<br>具体的人</h2>
-        <small>点击相框进入完整档案</small>
+        <small>轻触卡片，翻阅人物的另一面</small>
       </header>
       <div class="people-grid">${location.people.map(card).join('')}</div>
       <a class="next-section people-next" href="#video"><span>进入历史影像</span><b aria-hidden="true">↓</b></a>
@@ -69,11 +83,8 @@
         ${videoMarkup}
         <p class="video-caption">${esc(location.videoCaption)}</p>
       </div>
-    </section>
-    <dialog class="person-dialog" id="person-dialog" aria-labelledby="dialog-name"><div class="dialog-scroll" id="dialog-content"></div></dialog>`;
+    </section>`;
 
-  const dialog = document.getElementById('person-dialog');
-  const dialogContent = document.getElementById('dialog-content');
   let activeAudio = null;
   let activeButton = null;
 
@@ -101,29 +112,17 @@
     audio.addEventListener('error', stopAudio, { once: true });
     audio.play().then(() => { button.classList.add('is-playing'); button.setAttribute('aria-pressed', 'true'); }).catch(stopAudio);
   };
-  const openPerson = (person) => {
-    const audioControl = person.audio ? `<button class="detail-audio" type="button" data-audio="${esc(person.audio)}" aria-pressed="false">${icon('volume-2')}<span>播放${esc(person.audioKind)}</span></button>` : '';
-    dialogContent.innerHTML = `
-      <button class="dialog-close" type="button" aria-label="关闭人物档案">${icon('x')}</button>
-      <section class="dialog-portrait">${portrait(person, 'detail')}<div class="dialog-title"><p>人物档案</p><h2 id="dialog-name">${esc(person.name)}</h2><span>${esc(person.years)}</span></div></section>
-      <article class="dialog-body">
-        <p class="dialog-role">${esc(person.role)}</p>
-        <div class="dialog-bio"><p>${esc(person.eventSummary)}</p><p>${esc(person.significance)}</p></div>
-        <section class="quote-box" aria-label="相关史料"><p>“${esc(person.quote)}”</p><small>${esc(person.source)}</small>${audioControl}</section>
-        <p class="portrait-credit">肖像：${esc(person.portraitCredit)}</p>
-      </article>`;
-    dialog.showModal();
-    dialog.querySelector('.dialog-close')?.focus();
-  };
-
   app.addEventListener('click', (event) => {
     const audioButton = event.target.closest('[data-audio]');
     if (audioButton) { event.stopPropagation(); toggleAudio(audioButton, audioButton.dataset.audio); return; }
-    if (event.target.closest('.dialog-close') || event.target === dialog) { stopAudio(); dialog.close(); return; }
-    const cardButton = event.target.closest('.person-open');
-    if (cardButton) openPerson(location.people[Number(cardButton.dataset.person)]);
+    const cardButton = event.target.closest('.person-flip');
+    if (!cardButton) return;
+    stopAudio();
+    const person = location.people[Number(cardButton.dataset.person)];
+    const card = cardButton.closest('.person-card');
+    const isFlipped = card.classList.toggle('is-flipped');
+    cardButton.setAttribute('aria-pressed', String(isFlipped));
+    cardButton.setAttribute('aria-label', isFlipped ? `翻回${person.name}的人物卡片正面` : `翻开${person.name}的人物卡片`);
   });
-  dialog.addEventListener('cancel', () => stopAudio());
-  dialog.addEventListener('close', stopAudio);
   window.addEventListener('pagehide', stopAudio);
 })();
